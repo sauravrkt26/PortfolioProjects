@@ -1,6 +1,7 @@
 /*
 	DATA EXPLORATION USING COVID-19 DATA
 	SKILLS USED: Data Type Conversion, Aggregate Functions, Window Functions, Joins, CTEs, Temp tables, Views.
+	Date of data extraction: 05-05-2022
 
 */
 
@@ -45,6 +46,14 @@ WHERE continent IS NOT NULL
 GROUP BY location, population
 ORDER BY InfectedPercentage desc
 
+--Looking at countries with infection rate by date
+
+SELECT location, date, population, MAX(total_cases) as TotalInfection, MAX(total_cases/population)*100 AS InfectedPercentage
+FROM PortfolioProject1..CovidDeaths
+WHERE continent IS NOT NULL
+GROUP BY location, population, date
+ORDER BY 1,2
+
 --Showing countries with highest death count rate
 
 SELECT location, MAX(CAST(total_deaths as INT)) as TotalDeaths, MAX(population) as TotalPopulation, MAX(total_deaths/population)*100 AS DeathPercentage
@@ -70,7 +79,26 @@ FROM PortfolioProject1..CovidDeaths
 WHERE continent IS NOT NULL
 AND location NOT LIKE '%income%'
 GROUP BY date
-ORDER BY date 
+ORDER BY date
+
+--Total Cases and Death Rate to date(05-05-2022) by continent
+
+SELECT location, SUM(new_cases) AS TotalCases , SUM(CAST(new_deaths AS INT)) AS TotalDeaths, SUM(CAST(new_deaths AS INT))/SUM(new_cases) *100 as DeathRate
+FROM PortfolioProject1..CovidDeaths
+WHERE continent IS NULL
+AND location NOT LIKE '%income%'
+AND location NOT IN ('European Union','International','World')
+GROUP BY location
+ORDER BY location
+
+--Total Cases and Death Rate to date(05-05-2022) GLOBAL
+
+SELECT  SUM(new_cases) AS TotalCases , SUM(CAST(new_deaths AS INT)) AS TotalDeaths, SUM(CAST(new_deaths AS INT))/SUM(new_cases) *100 as DeathRate
+FROM PortfolioProject1..CovidDeaths
+WHERE continent IS NOT NULL
+--GROUP BY location
+--ORDER BY DeathRate desc
+
 
 --JOINING TABLES
 -- Looking at total population vs vaccinations per day, window function needed
