@@ -2,7 +2,8 @@
 	DATA EXPLORATION USING COVID-19 DATA
 	SKILLS USED: Data Type Conversion, Aggregate Functions, Window Functions, Joins, CTEs, Temp tables, Views.
 	Date of data extraction: 05-05-2022
-
+	Viz: https://public.tableau.com/app/profile/saurav.pandey8138/
+	
 */
 
 SELECT * 
